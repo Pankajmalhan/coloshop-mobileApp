@@ -1,13 +1,13 @@
-import * as React from 'react'
-import {  StyleSheet, Text, View } from 'react-native';
-export interface Props { }
-export interface State { }
 
-export class LogInScreen extends React.Component<Props, State> {
+
+import React, {Component} from 'react';
+import {Platform, StyleSheet, Text, View} from 'react-native';
+
+export default class SignUpScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text>This is TYpeScript App</Text>
+        <Text style={styles.welcome}>Welcome to React SignUpScreen!</Text>
       </View>
     );
   }

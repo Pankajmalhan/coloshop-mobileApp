@@ -1,14 +1,18 @@
-import * as React from 'react'
-import {  StyleSheet, View } from 'react-native';
-import {LogInScreen} from './screens/login/loginScreen';
-export interface Props { }
-export interface State { }
 
-export class App extends React.Component<Props, State> {
+
+import React, {Component} from 'react';
+import {Platform, StyleSheet, Text, View} from 'react-native';
+
+export default class AuthScreen extends Component {
+    componentDidMount(){
+        setTimeout(()=>{
+            this.props.navigation.navigate('RegisterUser');
+        },1000)
+    }
   render() {
     return (
       <View style={styles.container}>
-       <LogInScreen />
+        <Text style={styles.welcome}>Welcome to Auth Screen!</Text>
       </View>
     );
   }
