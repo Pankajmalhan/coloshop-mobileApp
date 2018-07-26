@@ -1,39 +1,113 @@
+
+
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, Image,
-    Dimensions,ImageBackground, TouchableHighlight,StatusBar,TextInput } from 'react-native';
+import {Platform, StyleSheet, Text, View, StatusBar, AccessibilityInfo,Image,TouchableWithoutFeedback} from 'react-native';
+import {Button,Spinner, Item, Input, Label} from 'native-base';
+import HeaderComponent from '../../components/header/header';
+import FormValidator from '../../validation/validator';
+import {signupUserNameValidationRules} from '../../validation/validationRules/signUpFormRules';
+
 export default class SignUpScreen extends Component {
+
+  constructor(props){
+    super(props);
+    this.validator=new FormValidator(signupUserNameValidationRules);
+    this.state={
+      isSubmittedClick:false,
+      emailId:'',
+      userName:'',
+      validation:this.validator.valid(),
+      showSpinner:false
+    };
+  }
+
+  moveToBack=()=>{
+    this.props.navigation.goBack();
+  }
+
+  onTextChange=(event,controlName)=>{
+    var value=event.nativeEvent.text;
+     this.setState((previousState)=>{
+       return{
+         [controlName]:value
+       }
+     }) 
+   
+    
+  }
+  buttonPress=()=>{
+        const validationResult = this.validator.validate(this.state);
+        this.setState((previousState)=>{
+          return {
+            validation:validationResult,
+            isSubmittedClick:true
+          }
+        });
+    if(validationResult.isValid){
+      this.setState({
+        showSpinner:true
+      });
+      setTimeout(()=>{
+        this.setState({
+          showSpinner:false
+        });
+        this.props.navigation.navigate('PasswordScreen');
+      },1000);
+    }
+  }
+
+  renderButtonContent=()=>{
+    return this.state.showSpinner?<Spinner color='white' /> :<Text style={{color:'#fff',fontSize:20}}>NEXT</Text>
+  }
+
   render() {
-    const width=Dimensions.get('window').width;
-    const height=Dimensions.get('window').height;
-    return (        
+    let validation = this.state.isSubmittedClick ?                         // if the form has been submitted at least once
+    this.validator.validate(this.state) :   // then check validity every time we render
+    this.state.validation ;
+    return (
       <View style={styles.container}>
       <StatusBar hidden={true} />
-        <ImageBackground  style={{width:width,height:height,flex:1}} source={require('../../assets/images/bg-mcd.png')}>
-        <View style={{flex:1,backgroundColor:'#ffffff',opacity:0.7,
-        position:'absolute',top:0,left:0,height:'95%',width:'86%',
-        marginLeft:'7%',marginRight:'7%',marginTop:'5%'}}>
-        </View>   
-        
-        <View style={{flex:1,position:'absolute',top:0,left:0,height:'95%',
-        width:'86%',
-        marginLeft:'7%',marginRight:'7%',marginTop:'5%',flexDirection:'column'}}>
-          <View style={{flex:0.2,flexDirection:'column',alignItems:'center'}}>
-          <Image source={require('../../assets/images/mycoindeal.png')} />
-          </View>
-          <View style={{flex:0.8}}>
-          <TextInput
-          style={{height: 40,marginLeft:'5%', width:'90%', borderColor: 'red',borderWidth:2,
-          borderLeftWidth:0,borderRightWidth:0
-        ,borderEndWidth:2,borderTopWidth:0}}
-          
-          
-        />
-         
-          </View>
+      <HeaderComponent 
+         headerTitle={{text:'step 1/3'}}
+         subTitle={{
+          text:'Choose a username'
+        }}
+        leftHeader={ {
+        imageUrl:require('../../assets/images/leftArrow.png'),
+        onPress:this.moveToBack
+      }}></HeaderComponent>
+        <View style={{flex:0.2,flexDirection:'row',justifyContent:'center'}}>
+          <Text style={{marginLeft:'10%',marginTop:20,color:'#2e3033'}}>Your username will be required to sign in your COLOSHOP account on this and 
+            other device
+          </Text>
         </View>
-        <View>
+        <View style={{flex:0.8,flexDirection:'column',alignContent:'flex-start'}}>                      
+            <View style={{width:'78%'}}>
+              <Item floatingLabel style={{width:'100%'}} >
+                <Label style={{color:validation.userName.isInvalid?"#e03a1d":"#0e3c87"}}>Username</Label>
+                <Input underlineColorAndroid={validation.userName.isInvalid?"#e03a1d":"#0e3c87"} 
+                onChange={(value)=>this.onTextChange(value,"userName")}
+                testID="userName" value={this.state.userName} autoFocus = {true} />
+              </Item>
+              {
+                validation.userName.isInvalid && <Text style={{color:'#000'}}>{validation.userName.message}</Text>
+              }
+            </View>            
+            <View style={{width:'78%',marginTop:30}}>
+              <Item floatingLabel style={{width:'100%'}}>
+                <Label style={{color:validation.emailId.isInvalid?"#e03a1d":"#0e3c87"}}>Email-Id</Label>
+                <Input underlineColorAndroid={validation.emailId.isInvalid?"#e03a1d":"#0e3c87"}
+               onChange={(value)=>this.onTextChange(value,"emailId")}
+                 value={this.state.emailId} testID="emailId"  />
+              </Item>
+              {
+                validation.emailId.isInvalid && <Text style={{color:'#000'}}>{validation.emailId.message}</Text>
+              }
+            </View>
+              <Button block style={{marginTop: 40,borderTopColor:'#0e3c87'}} onPress={this.buttonPress}>
+             {this.renderButtonContent()}
+          </Button>
         </View>
-        </ImageBackground >
       </View>
     );
   }
@@ -42,31 +116,18 @@ export default class SignUpScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: '#fff',
   },
-  logoContainer:{
-      flex:0.3,
-      flexDirection: 'row' ,
-      justifyContent:'center',
-      alignItems: 'flex-end',
+  welcome: {
+    fontSize: 20,
+    textAlign: 'center',
+    margin: 10,
   },
-  discriptionContainer:{
-      flex:0.2,
-      flexDirection: 'column',
-      color:'white',
-      alignItems: 'center',
-      paddingTop: '5%',
+  instructions: {
+    textAlign: 'center',
+    color: '#333333',
+    marginBottom: 5,
   },
-  buttonContainer:{
-      flex:0.5,
-      justifyContent:'center'
-  },
-  accountButton:{
-    paddingTop:10,
-    paddingBottom:10,
-    fontSize:20,                                 
-    paddingLeft:'30%'
-  }
 });

@@ -4,6 +4,7 @@ import LogInScreen from './screens/login/LoginScreen';
 import UserRegistrationScreen from './screens/userRegister/UserRegister';
 import SignUpScreen from './screens/signup/SignUpScreen';
 import SignUpInstructions from './screens/signUpInstructions/SignUpInstructions';
+import PasswordScreen from './screens/password/PasswordScreen';
 const AuthStack = createStackNavigator(
     { 
         Auth: {screen:AuthScreen},
@@ -21,10 +22,11 @@ const RegisterUserStack = createStackNavigator(
         StaringScreen: {screen:UserRegistrationScreen},
         LogInScreen: {screen:LogInScreen},
         SignUpScreen: {screen:SignUpScreen},
-        InstructionsScreen:{screen:SignUpInstructions}
+        InstructionsScreen:{screen:SignUpInstructions},
+        PasswordScreen:{screen:PasswordScreen}
     },
     {
-        initialRouteName: 'SignUpScreen',
+        initialRouteName: 'PasswordScreen',
         navigationOptions: {
             header: null,
           }

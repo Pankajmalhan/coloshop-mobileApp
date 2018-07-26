@@ -1,7 +1,10 @@
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View,Image,TouchableNativeFeedback,StatusBar} from 'react-native';
-import { Container, Header, Left, Body, Right, Button, Icon, Title } from 'native-base';
+import { Container, Header, Left, Body, Right, Button, Icon, Title,Subtitle } from 'native-base';
 export default class HeaderComponent extends Component {
+  constructor(props){
+    super(props);
+  }
   render() {
     return (
         <Header style={{width:'100%',backgroundColor:'#0e3c87'}}>
@@ -12,9 +15,13 @@ export default class HeaderComponent extends Component {
                 </TouchableNativeFeedback>          
           </Left>
         }
-          <Body>
+          <Body >
               {
-                  this.props.headerTitle && <Title>Go Back</Title>
+                
+                  this.props.headerTitle!=undefined && <Title style={{fontSize:10,color:'#42f498',marginLeft:20}}>{this.props.headerTitle.text}</Title>                  
+              }
+              {
+                this.props.subTitle!=undefined && <Subtitle>{this.props.subTitle.text}</Subtitle>
               }
           </Body>
           {
