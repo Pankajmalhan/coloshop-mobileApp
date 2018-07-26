@@ -24,7 +24,7 @@ const RegisterUserStack = createStackNavigator(
         InstructionsScreen:{screen:SignUpInstructions}
     },
     {
-        initialRouteName: 'StaringScreen',
+        initialRouteName: 'SignUpScreen',
         navigationOptions: {
             header: null,
           }
