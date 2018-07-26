@@ -18,9 +18,8 @@ export default class ValidateionMethods{
           return regx.test(value);
       }
       static matchPassword=(value)=>{
-          let regx=/^[a-zA-Z0-9]{8,}$/;
-          console.log(regx.test(value));
-          return regx.test(value);
+        let regx=/([a-z])([A-Z])([0-9])/;
+          return regx.test(value) && value.length>=8;
       }
   
       static comparePassowrd=(pass1,state)=>{
