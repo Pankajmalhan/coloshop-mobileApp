@@ -35,31 +35,14 @@ export default class UserRegistrationScreen extends Component {
         </View>   
         
         <View style={{flex:1,position:'absolute',top:0,left:0,height:'100%',width:'100%'}}>
-         {/* 
-            Section for logo Start Here
-        */}
             <View style={styles.logoContainer}>
                     <Text style={{fontSize:24,color:'#39efe5',fontWeight:'800'}}>COLO</Text>
                     <Text style={{fontSize:24,color:'#fe4c50',fontWeight:'800'}}>SHOP</Text>
             </View>
-             {/* 
-            Section for logo End Here
-             */}
-
-              {/* 
-            Section for text discription Start Here
-            */}
             <View style={styles.discriptionContainer}>
                 <Text style={{color:'white'}}>Welcome to ColoShop App! </Text>
                 <Text style={{color:'white'}}>We always try to provide that you needs </Text>
             </View>
-                 {/* 
-            Section for text discription End Here
-            */}
-
-            {/* 
-            Section for bottom  start Here
-            */}
             <View style={styles.buttonContainer}>
                 <View>
                    
@@ -78,18 +61,23 @@ export default class UserRegistrationScreen extends Component {
                         </View>
                 </View>
                 <View style={{marginTop:20,flexDirection:'column',alignItems:'center'}}>
-                    <Text style={{color:'#fff'}}>
-                        Already have an account? Sign In
-                    </Text>
+                        <TouchableHighlight
+                            onPressIn={this.onPressInClick}
+                            onPressOut={this.onPressOutClick}
+                            onPress={()=>{this.props.navigation.navigate('LogIn')}}
+                            underlayColor="#39efe5">
+                            <View>
+                            <Text style={{color:'#fff'}}>
+                                    Already have an account? Sign In
+                            </Text>
+                            </View>
+                        </TouchableHighlight>          
                 </View>
             </View>
-            {/* 
-            Section for bottom  end Here
-            */}
         </View>
         <View>
         </View>
-        </ImageBackground >
+        </ImageBackground>
       </View>
     );
   }
@@ -111,7 +99,6 @@ const styles = StyleSheet.create({
   discriptionContainer:{
       flex:0.2,
       flexDirection: 'column',
-      color:'white',
       alignItems: 'center',
       paddingTop: '5%',
   },

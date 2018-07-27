@@ -16,17 +16,27 @@ const AuthStack = createStackNavigator(
           }
     }
 );
+const LogInStack = createStackNavigator(
+    { 
+        LogInScreen: {screen:LogInScreen},
+    },
+    {
+        initialRouteName: 'LogInScreen',
+        navigationOptions: {
+            header: null,
+          }
+    }
+);
 
 const RegisterUserStack = createStackNavigator(
     { 
         StaringScreen: {screen:UserRegistrationScreen},
-        LogInScreen: {screen:LogInScreen},
         SignUpScreen: {screen:SignUpScreen},
         InstructionsScreen:{screen:SignUpInstructions},
         PasswordScreen:{screen:PasswordScreen}
     },
     {
-        initialRouteName: 'PasswordScreen',
+        initialRouteName: 'StaringScreen',
         navigationOptions: {
             header: null,
           }
@@ -40,10 +50,13 @@ const RegisterUserStack = createStackNavigator(
       },
       RegisterUser:{
           screen:RegisterUserStack
+      },
+      LogIn:{
+          screen:LogInStack
       }
     },
     {
-      initialRouteName: 'Auth',
+      initialRouteName: 'RegisterUser',
       navigationOptions: {
         header: null,
       }

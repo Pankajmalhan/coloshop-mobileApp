@@ -6,7 +6,7 @@ export var PasswordValidationRules=[
       message: "Password doesn't meet requirements" 
     },
     { 
-        field: 'confirm', 
+        field: 'confirmPassword', 
         method: 'comparePassowrd', 
         validWhen: true, 
         message: "Doesn't match password" 

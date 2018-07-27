@@ -10,7 +10,7 @@ export default class AuthScreen extends Component {
         },1000)
     }
   render() {
-    return (
+    return (  
       <View style={styles.container}>
         <Text style={styles.welcome}>Welcome to Auth Screen!</Text>
       </View>

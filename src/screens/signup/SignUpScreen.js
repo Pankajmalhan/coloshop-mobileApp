@@ -6,6 +6,7 @@ import {Button,Spinner, Item, Input, Label} from 'native-base';
 import HeaderComponent from '../../components/header/header';
 import FormValidator from '../../validation/validator';
 import {signupUserNameValidationRules} from '../../validation/validationRules/signUpFormRules';
+import BasicTextInput from '../../components/textInput/basicTextInput';
 
 export default class SignUpScreen extends Component {
 
@@ -31,10 +32,9 @@ export default class SignUpScreen extends Component {
        return{
          [controlName]:value
        }
-     }) 
-   
-    
+     })  
   }
+  
   buttonPress=()=>{
         const validationResult = this.validator.validate(this.state);
         this.setState((previousState)=>{
@@ -83,26 +83,32 @@ export default class SignUpScreen extends Component {
         </View>
         <View style={{flex:0.8,flexDirection:'column',alignContent:'flex-start'}}>                      
             <View style={{width:'78%'}}>
-              <Item floatingLabel style={{width:'100%'}} >
-                <Label style={{color:validation.userName.isInvalid?"#e03a1d":"#0e3c87"}}>Username</Label>
-                <Input underlineColorAndroid={validation.userName.isInvalid?"#e03a1d":"#0e3c87"} 
-                onChange={(value)=>this.onTextChange(value,"userName")}
-                testID="userName" value={this.state.userName} autoFocus = {true} />
-              </Item>
-              {
-                validation.userName.isInvalid && <Text style={{color:'#000'}}>{validation.userName.message}</Text>
-              }
+            <BasicTextInput
+              component={{
+                isInvalid:validation.userName.isInvalid,
+                name:'userName',
+                displayText:'UserName',
+                onChange:this.onTextChange,
+                secureTextEntry:false,
+                testID:'password',
+                value:this.state.userName,
+                message:validation.userName.message
+              }}
+             />
             </View>            
             <View style={{width:'78%',marginTop:30}}>
-              <Item floatingLabel style={{width:'100%'}}>
-                <Label style={{color:validation.emailId.isInvalid?"#e03a1d":"#0e3c87"}}>Email-Id</Label>
-                <Input underlineColorAndroid={validation.emailId.isInvalid?"#e03a1d":"#0e3c87"}
-               onChange={(value)=>this.onTextChange(value,"emailId")}
-                 value={this.state.emailId} testID="emailId"  />
-              </Item>
-              {
-                validation.emailId.isInvalid && <Text style={{color:'#000'}}>{validation.emailId.message}</Text>
-              }
+            <BasicTextInput
+              component={{
+                isInvalid:validation.emailId.isInvalid,
+                name:'emailId',
+                displayText:'EmailId',
+                onChange:this.onTextChange,
+                secureTextEntry:false,
+                testID:'emailId',
+                value:this.state.emailId,
+                message:validation.emailId.message
+              }}
+             />
             </View>
               <Button block style={{marginTop: 40,borderTopColor:'#0e3c87'}} onPress={this.buttonPress}>
              {this.renderButtonContent()}
