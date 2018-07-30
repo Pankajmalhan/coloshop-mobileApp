@@ -5,7 +5,10 @@ import HeaderComponent from '../../components/header/header';
 import FormValidator from '../../validation/validator';
 import {PasswordValidationRules} from '../../validation/validationRules/passwordRules';
 import BasicTextInput from '../../components/textInput/basicTextInput';
-export default class PasswordScreen extends Component {
+import { connect } from 'react-redux';
+import {getPasswordRules} from '../../actions/actions';
+import { bindActionCreators } from 'redux';
+class PasswordScreen extends Component {
 
   constructor(props){
     super(props);
@@ -14,10 +17,7 @@ export default class PasswordScreen extends Component {
       isSubmittedClick:false,
       isFocused:false,
       validationRules:[
-        {message:"Must have at least 8 characters",isFullFill:false},
-        {message:"Must have at least 1 lower letter",isFullFill:false},
-        {message:"Must have at least 1 uppercase",isFullFill:false},
-        {message:"Must have at least 1 number",isFullFill:false}
+        ...this.props.passwordValidationRules
       ],
       password:'',
       confirmPassword:'',
@@ -26,10 +26,23 @@ export default class PasswordScreen extends Component {
     }
   }
 
+  componentDidMount(){
+    if(this.props.passwordValidationRules.length==0){
+      this.props.getPasswordRules();
+    }
+  };
+
+  componentDidUpdate(prevProps, prevState){
+    if(this.props.passwordValidationRules.length!=0 && prevState.validationRules.length==0){
+      this.setState({
+        validationRules:this.props.passwordValidationRules
+      })
+    }
+  }
   renderPasswordHints=()=>{
     return this.state.validationRules.map((rule)=>{
       return (
-        <View style={{marginLeft:'10%',flexDirection:'row'}}>
+        <View style={{marginLeft:'10%',flexDirection:'row'}} key={rule.message}>
               <Image style={{height:20,width:20,marginTop:20}} 
                   source={rule.isFullFill?require('../../assets/images/right.png'):require('../../assets/images/wrong.png')} />
             <Text style={{marginLeft:'5%',marginTop:20,color:'#2e3033'}}>
@@ -175,3 +188,19 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
 });
+
+
+function mapStateToProps(state) {
+  return {
+      passwordValidationRules: state.password.passwordValidations
+  };
+}
+
+
+function mapDispatchToProps(dispatch){
+return bindActionCreators({
+      getPasswordRules:getPasswordRules
+  }, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(PasswordScreen);
